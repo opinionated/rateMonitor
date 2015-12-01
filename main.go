@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/opinionated/scraper-core/scraper"
 	"github.com/opinionated/utils/log"
+	"os"
 	"time"
 )
 
@@ -87,7 +88,16 @@ func updateFeeds(feeds []rssMonitor) {
 }
 
 func main() {
-	log.InitStd()
+	infoFile, err := os.OpenFile("rateInfoLog.txt", os.O_RDWR|os.O_CREATE, 0666)
+	errFile, err := os.OpenFile("rateErrorLog.txt", os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		panic(err)
+	}
+
+	defer infoFile.Close()
+	defer errFile.Close()
+
+	log.Init(infoFile, nil, errFile)
 
 	feeds := []rssMonitor{newMonitor(&scraper.WSJRSS{}),
 		newMonitor(&scraper.NYTRSS{})}
