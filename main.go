@@ -51,6 +51,9 @@ func (task rssMonitor) didChange() (bool, error) {
 		}
 	}
 
+	if found {
+		log.Info("found new article")
+	}
 	return found, nil
 }
 
