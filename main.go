@@ -54,6 +54,7 @@ func (task rssMonitor) didChange() (bool, error) {
 	if found {
 		log.Info("found new article")
 	}
+	task.rss.GetChannel().ClearArticles()
 	return found, nil
 }
 
@@ -123,8 +124,7 @@ func main() {
 
 		if flip {
 			for _, monitor := range feeds {
-				log.Info("for feed:", monitor.rss,
-					"average time is: ", monitor.tracker.getAverage())
+				log.Info("average time is: ", monitor.tracker.getAverage())
 			}
 		}
 		flip = !flip
